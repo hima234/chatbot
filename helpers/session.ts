@@ -1,44 +1,16 @@
-import db from "@/database";
-import { users, sessions } from "@/database/schema";
-import { eq } from "drizzle-orm";
-import { getServerSession } from "next-auth";
-import authOptions from "@/lib/auth";
-import { NextResponse } from "next/server";
-import { getSessionCookieName } from "@/helpers/token";
+import { Session } from "@/types";
+import { jwtVerify } from "jose";
 import { cookies } from "next/headers";
 
-export default async function handleSession() {
+export async function checkSignedIn() {
+  const cookieStore = cookies();
+  const token = cookieStore.get("token")?.value!;
+
   try {
-    const session = await getServerSession(authOptions);
-
-    if (!session) return null;
-
-    const profile = await db.query.users.findFirst({
-      where: eq(users.email, session.users?.email!),
-    });
-
-    if (!profile) return null;
-
-    if (profile.isDeleted) {
-      const cookieStore = cookies();
-
-      const sesstionToken = cookieStore.get(getSessionCookieName());
-
-      if (!sesstionToken?.value)
-        return NextResponse.json({
-          success: false,
-          message: "You are not logged in",
-        });
-
-      await db
-        .delete(sessions)
-        .where(eq(sessions.sessionToken, sesstionToken?.value))
-        .returning();
-
-      return null;
-    }
-
-    return profile;
+    if (!token) return null;
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+    const { payload } = await jwtVerify(token, secret);
+    return payload as Session;
   } catch (error) {
     return null;
   }

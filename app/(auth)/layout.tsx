@@ -1,4 +1,4 @@
-import handleSession from "@/helpers/session";
+import { checkSignedIn } from "@/helpers/session";
 import { redirect } from "next/navigation";
 
 export const metadata = {
@@ -11,7 +11,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await handleSession();
+  const session = await checkSignedIn();
 
   if (session) redirect("/dashboard");
 

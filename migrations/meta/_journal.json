@@ -1,0 +1,13 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1708185580222,
+      "tag": "0000_misty_nico_minoru",
+      "breakpoints": true
+    }
+  ]
+}

@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
 import axios from "axios";
 import { Loader } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -58,15 +59,13 @@ export default function Page() {
             {loading && <Loader className="mr-2 animate-spin" size={16} />}
             Login
           </Button>
-          <div className="mt-4 text-center">
-            <p>
-              Don't have an account?{" "}
-              <a href="/register" className="text-blue-600 hover:underline">
-                Register
-              </a>
-            </p>
-          </div>
         </form>
+        <div className="mt-4 text-center">
+          <span>
+            {"Don't have an account?"}
+            <Link href="/register"> Register</Link>
+          </span>
+        </div>
       </Card>
     </main>
   );
