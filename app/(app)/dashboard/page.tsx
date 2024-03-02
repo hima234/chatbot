@@ -1,16 +1,29 @@
-import Logout from "@/components/Logout";
-import { Button } from "@/components/ui/button";
-import { checkSignedIn } from "@/helpers/session";
+"use client";
 
-export default async function Page() {
-  const session = await checkSignedIn();
+import { useChat } from "ai/react";
+
+export default function Chat() {
+  const { messages, input, handleInputChange, handleSubmit } = useChat();
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-background text-primary">
-      <h1 className="text-4xl font-bold text-center">
-        You are now logged in as {session?.email}
-      </h1>
-      <Logout />
+    <div className="flex flex-col w-full max-w-md py-24 mx-auto stretch">
+      {messages.length > 0
+        ? messages.map((m) => (
+            <div key={m.id} className="whitespace-pre-wrap">
+              {m.role === "user" ? "User: " : "AI: "}
+              {m.content}
+            </div>
+          ))
+        : null}
+
+      <form onSubmit={handleSubmit}>
+        <input
+          className="fixed bottom-0 w-full max-w-md p-2 mb-8 border border-gray-300 rounded shadow-xl"
+          value={input}
+          placeholder="Say something..."
+          onChange={handleInputChange}
+        />
+      </form>
     </div>
   );
 }

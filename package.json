@@ -12,10 +12,12 @@
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^0.6.3",
+    "@huggingface/inference": "^2.6.4",
     "@neondatabase/serverless": "^0.8.1",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-toast": "^1.1.5",
+    "ai": "^3.0.2",
     "axios": "^1.6.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
